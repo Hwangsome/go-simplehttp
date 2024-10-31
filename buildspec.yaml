@@ -25,7 +25,7 @@ phases:
         cat <<EOF > imageDetail.json
         [
         {
-        "imageURI": "${REPOSITORY_URI}:${IMAGE_TAG}"
+        "imageURI": "${REPOSITORY_URI}:${$CODEBUILD_RESOLVED_SOURCE_VERSION}"
         }
         ]
         EOF
