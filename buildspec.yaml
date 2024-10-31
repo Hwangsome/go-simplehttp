@@ -2,7 +2,7 @@ version: 0.2
 env:
   variables:
     REPOSITORY_URI: "058264261029.dkr.ecr.us-east-1.amazonaws.com/bhuang-devops/backend-api"
-    IMAGE_TAG: "${CODEBUILD_RESOLVED_SOURCE_VERSION}"  # 使用源代码版本作为镜像标签
+    IMAGE_TAG: "${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}"  # # 设置默认值为 latest
 
 phases:
   pre_build:
