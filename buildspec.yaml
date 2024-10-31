@@ -1,0 +1,26 @@
+version: 0.2
+env:
+  variables:
+    REPOSITORY_URI: "058264261029.dkr.ecr.us-east-1.amazonaws.com/bhuang-devops/backend-api"
+    IMAGE_TAG: "${CODEBUILD_RESOLVED_SOURCE_VERSION}"  # 使用源代码版本作为镜像标签
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
+
+  build:
+    commands:
+      - echo Buildingspec.yaml the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .  # 构建 Docker 镜像
+  post_build:
+    commands:
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG  # 推送镜像到 ECR
+      - echo Writing image details to file...
+      - echo "{\"imageURI\": \"$REPOSITORY_URI:$IMAGE_TAG\"}" > imageDetail.json  # 输出镜像信息到文件
+artifacts:
+  files:
+    - imageDetail.json  # 将镜像信息文件保存为构建工件，供后续阶段使用
+
