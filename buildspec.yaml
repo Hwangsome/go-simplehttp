@@ -24,9 +24,7 @@ phases:
       - |
         cat <<EOF > imageDetail.json
         [
-        {
-        "imageURI": "${REPOSITORY_URI}:${CODEBUILD_RESOLVED_SOURCE_VERSION}"
-        }
+        {"imageURI": "${REPOSITORY_URI}:${CODEBUILD_RESOLVED_SOURCE_VERSION}", "name": "go-simplehttp"}
         ]
         EOF
 
