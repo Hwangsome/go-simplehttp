@@ -22,11 +22,11 @@ phases:
       - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION  # 推送镜像到 ECR
       - echo "Writing image details to file..."
       - |
-        printf '%s' > imageDetail.json <<EOF
+        cat <<EOF > imageDetail.json
         [
-          {
-            "imageURI": "058264261029.dkr.ecr.us-east-1.amazonaws.com/bhuang-devops/backend-api:${CODEBUILD_RESOLVED_SOURCE_VERSION}"
-          }
+        {
+        "imageURI": "${REPOSITORY_URI}:${IMAGE_TAG}"
+        }
         ]
         EOF
 
