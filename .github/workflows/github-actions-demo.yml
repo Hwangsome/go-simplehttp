@@ -3,7 +3,11 @@ name: GitHub Actions Demo
 # Actions contexts, such as ${{ github.actor }} and ${{ github.event_name }}
 #  https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - 'releases/**'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
