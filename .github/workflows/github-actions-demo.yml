@@ -3,7 +3,11 @@ name: GitHub Actions Demo
 # Actions contexts, such as ${{ github.actor }} and ${{ github.event_name }}
 #  https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - 'releases/**'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -12,6 +16,7 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: echo "Each workflow run will use the version of the workflow that is present in the associated commit SHA or Git ref of the event. When a workflow runs, GitHub Enterprise Cloud sets the GITHUB_SHA (commit SHA) and GITHUB_REF (Git ref) environment variables in the runner environment. "
+#        https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables
       - run: echo "GITHUB_SHA= ${{ github.sha }}"
       - name: Check out repository code
         uses: actions/checkout@v4
