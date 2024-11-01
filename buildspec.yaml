@@ -21,12 +21,8 @@ phases:
       - echo "Pushing the Docker image to ECR..."
       - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION  # 推送镜像到 ECR
       - echo "Writing image details to file..."
-      - |
-        cat <<EOF > imageDetail.json
-        [
-        {"imageURI": "${REPOSITORY_URI}:${CODEBUILD_RESOLVED_SOURCE_VERSION}", "name": "go-simplehttp"}
-        ]
-        EOF
+      - printf '[{"name":"go-simplehttp","imageUri":"${REPOSITORY_URI}:${CODEBUILD_RESOLVED_SOURCE_VERSION}"}]' > imagedefinitions.json
+
 
 artifacts:
   files:
