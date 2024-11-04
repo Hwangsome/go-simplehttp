@@ -15,6 +15,7 @@ jobs:
       # Step 2: 使用 gh CLI 添加评论
       - name: Add a comment to the new issue
         env:
+#          this PAT Is Stored in the GitHub Secrets
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "感谢您提交 Issue！我们的团队会尽快处理此问题。"
