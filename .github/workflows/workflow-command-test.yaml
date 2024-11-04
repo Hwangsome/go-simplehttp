@@ -57,6 +57,8 @@ jobs:
           else
             echo "build_type=quick" >> $GITHUB_OUTPUT
           fi
+      - name: Display build_type output
+        run: echo "Build type is ${{ steps.check_message.outputs.build_type }}"
 
   build:
     needs: check-message
