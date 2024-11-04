@@ -64,13 +64,10 @@ jobs:
     needs: check-message
     runs-on: ubuntu-latest
     steps:
-      - name: GITHUB_OUTPUT value
-        run: echo "GITHUB_OUTPUT=" $GITHUB_OUTPUT  # 输出 GITHUB_OUTPUT 的值以进行调试
-
       - name: Run full build
-        if: ${{ needs.check-message.outputs.build_type == 'full' }}
+        if: ${{ steps.check-message.outputs.build_type == 'full' }}
         run: echo "Running full build..."
 
       - name: Run quick build
-        if: ${{ needs.check-message.outputs.build_type == 'quick' }}
+        if: ${{ steps.check-message.outputs.build_type == 'quick' }}
         run: echo "Running quick build..."
