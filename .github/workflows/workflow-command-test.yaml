@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GITHUB_OUTPUT value
-        run: echo "GITHUB_OUTPUT=" ${{ steps.check-message.outputs.build_type }}  # 输出 GITHUB_OUTPUT 的值以进行调试
+        run: echo "GITHUB_OUTPUT=" ${{ needs.check-message.outputs.build_type }}  # 输出 GITHUB_OUTPUT 的值以进行调试
 
       - name: Run full build
         if: ${{ steps.check-message.outputs.build_type == 'full' }}
