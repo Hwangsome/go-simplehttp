@@ -67,4 +67,3 @@ jobs:
       - name: Run quick build
         if: ${{ needs.check-message.outputs.build_type == 'quick' }}
         run: echo "Running quick build..."
-
