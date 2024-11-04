@@ -1,3 +1,40 @@
+#name: Conditional Workflow
+#
+#on: [push]
+#
+#jobs:
+#  check-message:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - name: Check commit message
+#        id: check_message
+#        run: |
+##          检查提交消息：通过 git log 获取提交消息，判断其中是否包含 [full-build]。
+#          message=$(git log -1 --pretty=%B)
+#          if [[ "$message" == *"[full-build]"* ]]; then
+##               设置输出变量：根据判断结果设置 build_type 的值为 full 或 quick。
+##              基本语法： echo "::set-output name=<output_name>::<value>"
+##               name：指定输出变量的名称，可以在后续步骤中通过 ${{ steps.<step_id>.outputs.<output_name> }} 引用。
+##               value：要传递的值，可以是字符串、数值或其他需要传递的数据。
+#            echo "::set-output name=build_type::full"
+#          else
+#            echo "::set-output name=build_type::quick"
+#          fi
+#
+#  build:
+#    needs: check-message
+#    runs-on: ubuntu-latest
+#    steps:
+##      条件运行步骤：在 build Job 中，根据 build_type 的值决定运行“完整构建”还是“快速构建”。
+#      - name: Run full build
+#        if: ${{ steps.check_message.outputs.build_type == 'full' }}
+#        run: echo "Running full build..."
+#
+#      - name: Run quick build
+#        if: ${{ steps.check_message.outputs.build_type == 'quick' }}
+#        run: echo "Running quick build..."
 name: Conditional Workflow
 
 on: [push]
@@ -8,30 +45,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Check commit message
         id: check_message
         run: |
-#          检查提交消息：通过 git log 获取提交消息，判断其中是否包含 [full-build]。
           message=$(git log -1 --pretty=%B)
           if [[ "$message" == *"[full-build]"* ]]; then
-#               设置输出变量：根据判断结果设置 build_type 的值为 full 或 quick。
-#              基本语法： echo "::set-output name=<output_name>::<value>"
-#               name：指定输出变量的名称，可以在后续步骤中通过 ${{ steps.<step_id>.outputs.<output_name> }} 引用。
-#               value：要传递的值，可以是字符串、数值或其他需要传递的数据。
-            echo "::set-output name=build_type::full"
+            echo "build_type=full" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=build_type::quick"
+            echo "build_type=quick" >> $GITHUB_OUTPUT
           fi
 
   build:
     needs: check-message
     runs-on: ubuntu-latest
     steps:
-#      条件运行步骤：在 build Job 中，根据 build_type 的值决定运行“完整构建”还是“快速构建”。
       - name: Run full build
-        if: ${{ steps.check_message.outputs.build_type == 'full' }}
+        if: ${{ needs.check-message.outputs.build_type == 'full' }}
         run: echo "Running full build..."
 
       - name: Run quick build
-        if: ${{ steps.check_message.outputs.build_type == 'quick' }}
+        if: ${{ needs.check-message.outputs.build_type == 'quick' }}
         run: echo "Running quick build..."
