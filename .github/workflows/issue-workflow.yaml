@@ -12,10 +12,9 @@ jobs:
       # Step 1: 检出代码（一般操作，保持 Actions 的最佳实践）
       - name: Checkout code
         uses: actions/checkout@v3
-
       # Step 2: 使用 gh CLI 添加评论
       - name: Add a comment to the new issue
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "感谢您提交 Issue！我们的团队会尽快处理此问题。"
