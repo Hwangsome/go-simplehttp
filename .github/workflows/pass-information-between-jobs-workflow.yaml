@@ -1,0 +1,38 @@
+name: Complex Pass Data Example
+
+on: [push]
+
+jobs:
+#   setup_environment job 定义了两个输出：version 和 build_path。
+  setup_environment:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set_version.outputs.version }}
+      build_path: ${{ steps.build_path.outputs.path }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Generate version
+        id: set_version
+#        使用 date 命令生成一个版本号，并将其写入到 $GITHUB_OUTPUT 文件中。
+#        GitHub Actions 会读取 $GITHUB_OUTPUT 文件的内容，并将 version=<value> 解析为步骤的输出变量 version，从而可以在后续步骤或 jobs 中引用 steps.<step_id>.outputs.version。
+        run: |
+          VERSION="1.0.$(date +%s)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set build path
+        id: build_path
+        run: |
+          BUILD_PATH="/path/to/build/$VERSION"
+          echo "path=$BUILD_PATH" >> $GITHUB_OUTPUT
+
+# deploy job 使用 needs: setup_environment 引用 setup_environment 的输出，并打印出 version 和 build_path。
+  deploy:
+    runs-on: ubuntu-latest
+    needs: setup_environment
+    steps:
+      - name: Display version and path
+        run: |
+          echo "Deploying version ${{ needs.setup_environment.outputs.version }}"
+          echo "Build path is ${{ needs.setup_environment.outputs.build_path }}"
