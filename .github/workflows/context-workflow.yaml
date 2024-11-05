@@ -22,11 +22,22 @@ jobs:
     env:
       JOB_VAR: "Job level variable"
     steps:
-      - name: ""
+      - name: "env context"
         env:
           STEP_VAR: "Step level variable"
         run: |
           echo "Global Variable: ${{ env.GLOBAL_VAR }}"
           echo "Job Variable: ${{ env.JOB_VAR }}"
           echo "Step Variable: ${{ env.STEP_VAR }}"
+
+  show-steps-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output in step
+        id: example_step
+        run: echo "message=Hello from previous step" >> $GITHUB_OUTPUT
+
+      - name: Use step output
+        run: |
+          echo "Message: ${{ steps.example_step.outputs.message }}"
 
