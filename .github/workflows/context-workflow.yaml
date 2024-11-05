@@ -92,7 +92,7 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests..."
-          echo "needs object: ${{ needs }}"
+          echo "needs object: ${{ toJson(needs) }}"
   deploy:
     runs-on: ubuntu-latest
     if: ${{ inputs.perform_deploy }}
