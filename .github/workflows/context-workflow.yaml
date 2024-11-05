@@ -1,7 +1,19 @@
 name: GitHub Context Example
 
 on:
-  workflow_dispatch
+#  手动触发
+#  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      build_id:
+        required: true
+        type: number
+      deploy_target:
+        required: true
+        type: string
+      perform_deploy:
+        required: true
+        type: boolean
 
 env:
   GLOBAL_VAR: "This is a global variable"
@@ -79,6 +91,12 @@ jobs:
     steps:
       - name: Run tests
         run: echo "Running tests..."
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.perform_deploy }}
+    steps:
+      - name: Deploy build to target
+        run: echo "Deploying build:${{ inputs.build_id }} to target:${{ inputs.deploy_target }}"
 
   dump_contexts_to_log:
     runs-on: ubuntu-latest
