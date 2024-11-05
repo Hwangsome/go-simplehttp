@@ -32,6 +32,9 @@ jobs:
 
   show-steps-context:
     runs-on: ubuntu-latest
+#    steps 上下文
+#    steps 上下文用于在同一个 job 中获取先前步骤的输出。每个步骤需要设置 id 才能通过 steps.<step_id>.outputs.<output_name> 访问输出。
+#    steps.example_step.outputs.message：访问 example_step 步骤的输出。
     steps:
       - name: Set output in step
         id: example_step
@@ -40,4 +43,11 @@ jobs:
       - name: Use step output
         run: |
           echo "Message: ${{ steps.example_step.outputs.message }}"
+
+  show-secret-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Show Secret Context"
+        run: |
+          echo "Secret: ${{ secrets.PAT }}"
 
