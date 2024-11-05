@@ -1,0 +1,26 @@
+name: Greeting on variable day
+
+on:
+#  手动触发
+  workflow_dispatch
+
+# 这个环境变量表示可以在整个workflow中使用
+# 全局环境变量（整个 workflow 范围内）
+# 可以在整个 workflow 中使用，即所有的 job 和 step 都可以引用它。
+env:
+  DAY_OF_WEEK: Monday
+
+jobs:
+  greeting_job:
+    runs-on: ubuntu-latest
+# job 环境变量（每个 job 内）
+#    这个 job 内的所有步骤中可用，但不会影响其他 jobs（如果有其他 jobs）。
+    env:
+      Greeting: Hello
+    steps:
+      - name: "Say Hello Mona it's Monday"
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+#        step 环境变量（每个步骤内）
+#        仅在当前的步骤（step）中可用，不会影响到其他步骤
+        env:
+          First_Name: Mona
