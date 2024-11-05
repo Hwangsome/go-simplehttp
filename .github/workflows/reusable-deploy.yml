@@ -1,0 +1,28 @@
+name: Reusable Deploy Workflow
+
+on:
+#  对于可复用工作流，inputs 是在 workflow_call 事件下定义的。其他工作流可以通过调用这个可复用工作流，并使用 jobs.<job_id>.with 来传递输入参数。
+#  https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#workflow_call
+  workflow_call:
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: true
+        type: string
+      version:
+        description: "Version to deploy"
+        required: false
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+#    在可复用工作流中使用：在 reusable-deploy.yml 中，可以通过 ${{ inputs.environment }} 和 ${{ inputs.version }} 来访问传入的参数。
+    steps:
+      - name: Show environment
+        run: echo "Deploying to ${{ inputs.environment }} environment"
+
+      - name: Show version
+        if: ${{ inputs.version }}
+        run: | 
+          echo "Version to deploy: ${{ inputs.version }}"

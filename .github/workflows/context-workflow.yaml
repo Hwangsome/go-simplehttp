@@ -90,7 +90,9 @@ jobs:
     if: ${{ needs.build.result == 'success' }}
     steps:
       - name: Run tests
-        run: echo "Running tests..."
+        run: |
+          echo "Running tests..."
+          echo "needs object: ${{ needs }}"
   deploy:
     runs-on: ubuntu-latest
     if: ${{ inputs.perform_deploy }}

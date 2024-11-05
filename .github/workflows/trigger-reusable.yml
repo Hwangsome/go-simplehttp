@@ -1,0 +1,12 @@
+# .github/workflows/trigger-reusable.yml
+name: Trigger Reusable Workflow
+
+on: [push]
+
+jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable-deploy.yml  # 调用可复用工作流
+#    调用可复用工作流：在外部工作流中，通过 with 传递 environment 和 version 参数给可复用工作流。
+    with:
+      environment: production  # 传递参数
+      version: "1.2.3"
