@@ -7,11 +7,8 @@ jobs:
   show-github-context:
     runs-on: ubuntu-latest
     steps:
-      - name: Show repository name
-        run: echo "Repository: ${{ github.repository }}"
-
-      - name: Show ref (branch or tag)
-        run: echo "Ref: ${{ github.ref }}"
-
-      - name: Show commit SHA
-        run: echo "SHA: ${{ github.sha }}"
+      - name: "Show GitHub Context"
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
