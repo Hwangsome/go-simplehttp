@@ -3,12 +3,30 @@ name: GitHub Context Example
 on:
   workflow_dispatch
 
+env:
+  GLOBAL_VAR: "This is a global variable"
+
 jobs:
   show-github-context:
     runs-on: ubuntu-latest
     steps:
+#     https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
       - name: "Show GitHub Context"
         run: |
           echo "Repository: ${{ github.repository }}"
           echo "Ref: ${{ github.ref }}"
           echo "SHA: ${{ github.sha }}"
+
+  show-env-context:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "Job level variable"
+    steps:
+      - name: ""
+        env:
+          STEP_VAR: "Step level variable"
+        run: |
+          echo "Global Variable: ${{ env.GLOBAL_VAR }}"
+          echo "Job Variable: ${{ env.JOB_VAR }}"
+          echo "Step Variable: ${{ env.STEP_VAR }}"
+
