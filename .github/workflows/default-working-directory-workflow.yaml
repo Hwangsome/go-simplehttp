@@ -10,12 +10,19 @@ defaults:
 jobs:
   example-job:
     runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        shell: bash  # 设置 job 级别的默认 shell 为 bash
+#        working-directory: ./src  # 设置 job 级别的默认工作目录为 src
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: List files in src
         run: ls  # 将在 ./ 目录下运行 ls
+#        run: ls
+#        shell: bash
+#        working-directory: ./src  # 仅该 step 在 ./src 目录下运行
 
       - name: Print working directory
         run: pwd  # 将在 ./ 目录下运行 pwd，默认 shell 是 bash
