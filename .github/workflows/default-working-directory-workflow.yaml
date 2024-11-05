@@ -1,5 +1,5 @@
 name: Default Shell and Directory Example
-
+# https://docs.github.com/en/enterprise-cloud@latest/actions/writing-workflows/choosing-what-your-workflow-does/setting-a-default-shell-and-working-directory
 on: [push]
 
 defaults:
@@ -10,7 +10,7 @@ defaults:
 jobs:
   example-job:
     runs-on: ubuntu-latest
-#    defaults:
+    #    defaults:
 #      run:
 #        shell: bash  # 设置 job 级别的默认 shell 为 bash
 #        working-directory: ./src  # 设置 job 级别的默认工作目录为 src
