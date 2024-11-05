@@ -44,10 +44,36 @@ jobs:
         run: |
           echo "Message: ${{ steps.example_step.outputs.message }}"
 
+# ${{ secrets.MY_SECRET }}：访问仓库的 MY_SECRET Secret，GitHub 会自动保护此值不被泄露。
   show-secret-context:
     runs-on: ubuntu-latest
     steps:
       - name: "Show Secret Context"
         run: |
           echo "Secret: ${{ secrets.PAT }}"
+
+  show-runner-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show OS
+        run: | 
+          echo "Operating system: ${{ runner.os }}"
+
+      - name: Show Temp Directory
+        run: |
+          echo "Temp directory: ${{ runner.temp }}"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run build
+        run: echo "Building project..."
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ needs.build.result == 'success' }}
+    steps:
+      - name: Run tests
+        run: echo "Running tests..."
 
